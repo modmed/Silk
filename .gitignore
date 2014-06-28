@@ -84,3 +84,4 @@ build/
 gradle-app.setting
 
 .DS_Store
+setting.xml
