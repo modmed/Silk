@@ -3,7 +3,7 @@ package com.afollestad.silk;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-public interface SilkCursorItem<Type> {
+public interface SilkCursorItem<Type> extends SilkComparable {
 
     public ContentValues getContentValues();
 
