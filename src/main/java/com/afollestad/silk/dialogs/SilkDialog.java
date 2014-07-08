@@ -1,5 +1,6 @@
 package com.afollestad.silk.dialogs;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -362,13 +363,13 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
         super.onCancel(dialog);
     }
 
-    public final SilkDialog show() {
-        return show(false);
+    public final SilkDialog show(Activity context) {
+        return show(context, false);
     }
 
-    public SilkDialog show(boolean cancelable) {
+    public SilkDialog show(Activity context, boolean cancelable) {
         setCancelable(cancelable);
-        this.show(getActivity().getFragmentManager(), "CUSTOMALERT:" + mTitle);
+        this.show(context.getFragmentManager(), "CUSTOMALERT:" + mTitle);
         return this;
     }
 
