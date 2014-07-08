@@ -230,7 +230,11 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         setRetainInstance(true);
+
         mDarkTheme = getArguments().getBoolean("dark_theme");
+        if (mAccentColor == 0)
+            mAccentColor = getContext().getResources().getColor(android.R.color.black);
+
         Dialog dialog = new Dialog(getContext(),
                 mDarkTheme ? android.R.style.Theme_Holo_Dialog_NoActionBar :
                         android.R.style.Theme_Holo_Light_Dialog_NoActionBar
