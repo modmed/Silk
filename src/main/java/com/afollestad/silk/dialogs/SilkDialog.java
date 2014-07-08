@@ -41,7 +41,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     }
 
     private Activity getContext() {
-        if (getContext() != null) mContext = getContext();
+        if (getContext() != null) mContext = getActivity();
         return mContext;
     }
 
