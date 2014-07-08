@@ -27,14 +27,25 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     public SilkDialog() {
     }
 
-    public static SilkDialog create(boolean darkTheme) {
+    public static SilkDialog create(Activity context) {
+        return create(context, false);
+    }
+
+    public static SilkDialog create(Activity context, boolean darkTheme) {
         SilkDialog dialog = new SilkDialog();
+        dialog.mContext = context;
         Bundle args = new Bundle();
         args.putBoolean("dark_theme", darkTheme);
         dialog.setArguments(args);
         return dialog;
     }
 
+    private Activity getContext() {
+        if (getContext() != null) mContext = getContext();
+        return mContext;
+    }
+
+    private Activity mContext;
     private boolean mDarkTheme;
     private int mIcon;
     private CharSequence mTitle;
@@ -67,11 +78,11 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     }
 
     public final SilkDialog setTitle(int title) {
-        return setTitle(getActivity().getString(title));
+        return setTitle(getContext().getString(title));
     }
 
     public final SilkDialog setTitle(int title, Object... formatArgs) {
-        mTitle = getActivity().getString(title, formatArgs);
+        mTitle = getContext().getString(title, formatArgs);
         return this;
     }
 
@@ -81,11 +92,11 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     }
 
     public final SilkDialog setMessage(int message) {
-        return setMessage(getActivity().getString(message));
+        return setMessage(getContext().getString(message));
     }
 
     public final SilkDialog setMessage(int message, Object... formatArgs) {
-        return setMessage(getActivity().getString(message, formatArgs));
+        return setMessage(getContext().getString(message, formatArgs));
     }
 
     public SilkDialog setMessage(CharSequence message) {
@@ -99,11 +110,11 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     }
 
     public final SilkDialog setAccentColorRes(int colorRes) {
-        return setAccentColor(getActivity().getResources().getColor(colorRes));
+        return setAccentColor(getContext().getResources().getColor(colorRes));
     }
 
     public final SilkDialog setPostiveButtonText(int text) {
-        return setPostiveButtonText(getActivity().getString(text));
+        return setPostiveButtonText(getContext().getString(text));
     }
 
     public SilkDialog setPostiveButtonText(String text) {
@@ -112,7 +123,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     }
 
     public final SilkDialog setNeutralButtonText(int text) {
-        return setNeutralButtonText(getActivity().getString(text));
+        return setNeutralButtonText(getContext().getString(text));
     }
 
     public SilkDialog setNeutralButtonText(String text) {
@@ -121,7 +132,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     }
 
     public final SilkDialog setNegativeButtonText(int text) {
-        return setNegativeButtonText(getActivity().getString(text));
+        return setNegativeButtonText(getContext().getString(text));
     }
 
     public SilkDialog setNegativeButtonText(String text) {
@@ -143,7 +154,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     }
 
     public final SilkDialog setItems(int stringArrayRes, SelectionCallback callback) {
-        return setItems(getActivity().getResources().getStringArray(stringArrayRes), callback);
+        return setItems(getContext().getResources().getStringArray(stringArrayRes), callback);
     }
 
     public SilkDialog setSingleChoiceItems(String[] items, int preselect, SelectionCallback callback) {
@@ -171,7 +182,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     }
 
     public final SilkDialog setMultiChoiceItems(int stringArrayRes, MultiSelectionCallback callback) {
-        return setMultiChoiceItems(getActivity().getResources().getStringArray(stringArrayRes), callback);
+        return setMultiChoiceItems(getContext().getResources().getStringArray(stringArrayRes), callback);
     }
 
     public SilkDialog setAcceptsInput(boolean acceptsInput, String inputHint, String prefill, InputCallback callback) {
@@ -188,9 +199,9 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
         String hint = null;
         String prefillText = null;
         if (inputHint != 0)
-            hint = getActivity().getString(inputHint);
+            hint = getContext().getString(inputHint);
         if (prefill != 0)
-            prefillText = getActivity().getString(prefill);
+            prefillText = getContext().getString(prefill);
         return setAcceptsInput(acceptsInput, hint, prefillText, callback);
     }
 
@@ -204,7 +215,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     }
 
     public final SilkDialog setCustomView(int layoutRes) {
-        return setCustomView(LayoutInflater.from(getActivity()).inflate(layoutRes, null));
+        return setCustomView(LayoutInflater.from(getContext()).inflate(layoutRes, null));
     }
 
     public final void setCanSubmit(boolean canSubmit) {
@@ -220,7 +231,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         setRetainInstance(true);
         mDarkTheme = getArguments().getBoolean("dark_theme");
-        Dialog dialog = new Dialog(getActivity(),
+        Dialog dialog = new Dialog(getContext(),
                 mDarkTheme ? android.R.style.Theme_Holo_Dialog_NoActionBar :
                         android.R.style.Theme_Holo_Light_Dialog_NoActionBar
         );
@@ -288,7 +299,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
             childArea.addView(customView);
         } else if (mInput || mItems != null) {
             childArea.setVisibility(View.VISIBLE);
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            LayoutInflater inflater = LayoutInflater.from(getContext());
 
             if (mInput) {
                 View inputArea = inflater.inflate(R.layout.dialog_input, null);
@@ -363,13 +374,15 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
         super.onCancel(dialog);
     }
 
-    public final SilkDialog show(Activity context) {
-        return show(context, false);
+    public final SilkDialog show() {
+        return show(false);
     }
 
-    public SilkDialog show(Activity context, boolean cancelable) {
+    public SilkDialog show(boolean cancelable) {
+        if (getContext() == null)
+            throw new RuntimeException("Context is null, make sure you used the static create() method rather than the constructor to instantiate your dialog.");
         setCancelable(cancelable);
-        this.show(context.getFragmentManager(), "CUSTOMALERT:" + mTitle);
+        show(getContext().getFragmentManager(), "CUSTOMALERT:" + mTitle);
         return this;
     }
 
