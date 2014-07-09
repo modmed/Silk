@@ -65,7 +65,7 @@ public abstract class SilkDrawerActivity extends FragmentActivity {
     /**
      * Gets the drawer layout, you should return the View from the layout.
      */
-    protected abstract DrawerLayout getDrawerLayout();
+    public abstract DrawerLayout getDrawerLayout();
 
     /**
      * Gets the action bar title displayed when the drawer is open.
