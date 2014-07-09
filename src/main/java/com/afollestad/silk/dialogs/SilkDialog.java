@@ -234,6 +234,8 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
         mDarkTheme = getArguments().getBoolean("dark_theme");
         if (mAccentColor == 0)
             mAccentColor = getContext().getResources().getColor(android.R.color.black);
+        int textColor = getContext().getResources().getColor(
+                mDarkTheme ? android.R.color.primary_text_light : android.R.color.primary_text_dark);
 
         Dialog dialog = new Dialog(getContext(),
                 mDarkTheme ? android.R.style.Theme_Holo_Dialog_NoActionBar :
@@ -260,9 +262,11 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
         } else {
             message.setVisibility(View.GONE);
         }
+        message.setTextColor(textColor);
 
         Button positive = (Button) dialog.findViewById(android.R.id.button1);
         positive.setText(mPositiveText);
+        positive.setTextColor(textColor);
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -281,6 +285,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
                 }
             });
         } else neutral.setVisibility(View.GONE);
+        neutral.setTextColor(textColor);
 
         Button negative = (Button) dialog.findViewById(android.R.id.button2);
         if (mNegativeText != null) {
@@ -295,6 +300,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
                 }
             });
         } else negative.setVisibility(View.GONE);
+        negative.setTextColor(textColor);
 
         LinearLayout childArea = (LinearLayout) dialog.findViewById(android.R.id.primary);
         if (customView != null) {
@@ -317,6 +323,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
                             inputArea.getPaddingRight(), inputArea.getPaddingBottom());
                 }
                 inputView = (EditText) inputArea.findViewById(android.R.id.input);
+                inputView.setTextColor(textColor);
                 if (mInputHint != null) inputView.setHint(mInputHint);
                 if (mInputPrefill != null) inputView.append(mInputPrefill);
                 childArea.addView(inputArea);
@@ -333,15 +340,18 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
                         radio.setText(mItems[i]);
                         radio.setTag(i);
                         radio.setOnClickListener(this);
+                        radio.setTextColor(textColor);
                     } else if (mMultiChoice) {
                         view = inflater.inflate(R.layout.dialog_listitem_checkbox, null);
                         CheckBox check = (CheckBox) view.findViewById(R.id.check);
                         check.setText(mItems[i]);
                         check.setTag(i);
                         check.setOnClickListener(this);
+                        check.setTextColor(textColor);
                     } else {
                         view = inflater.inflate(R.layout.dialog_listitem, null);
                         ((TextView) view).setText(mItems[i]);
+                        ((TextView) view).setTextColor(textColor);
                         view.setTag(i);
                         view.setOnClickListener(this);
                     }

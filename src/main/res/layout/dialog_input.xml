@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:inputType="textCapWords|textAutoCorrect"
         android:singleLine="true"
-        android:fontFamily="sans-serif-light"
-        android:textColor="?android:textColorPrimary" />
+        android:fontFamily="sans-serif-light" />
 
 </LinearLayout>

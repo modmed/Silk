@@ -15,7 +15,6 @@
         android:paddingStart="5dip"
         android:paddingEnd="16dip"
         android:textSize="18sp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="?android:textColorPrimary" />
+        android:fontFamily="sans-serif-light" />
 
 </LinearLayout>
