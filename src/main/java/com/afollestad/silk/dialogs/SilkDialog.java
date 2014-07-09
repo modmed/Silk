@@ -235,7 +235,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
         if (mAccentColor == 0)
             mAccentColor = getContext().getResources().getColor(android.R.color.black);
         int textColor = getContext().getResources().getColor(
-                mDarkTheme ? android.R.color.primary_text_light : android.R.color.primary_text_dark);
+                mDarkTheme ?  android.R.color.primary_text_dark : android.R.color.primary_text_light);
 
         Dialog dialog = new Dialog(getContext(),
                 mDarkTheme ? android.R.style.Theme_Holo_Dialog_NoActionBar :
