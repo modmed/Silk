@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.silk.R;
 
@@ -235,7 +236,8 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
         if (mAccentColor == 0)
             mAccentColor = getContext().getResources().getColor(android.R.color.black);
         int textColor = getContext().getResources().getColor(
-                mDarkTheme ?  android.R.color.primary_text_dark : android.R.color.primary_text_light);
+                mDarkTheme ? android.R.color.primary_text_dark : android.R.color.primary_text_light);
+        if (mPositiveText == null) mPositiveText = getString(android.R.string.ok);
 
         Dialog dialog = new Dialog(getContext(),
                 mDarkTheme ? android.R.style.Theme_Holo_Dialog_NoActionBar :
@@ -265,6 +267,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
         message.setTextColor(textColor);
 
         Button positive = (Button) dialog.findViewById(android.R.id.button1);
+        positive.setTextColor(textColor);
         positive.setText(mPositiveText);
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,8 +275,10 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
                 onSubmit();
             }
         });
+        Toast.makeText(getContext(), "Positive: " + mPositiveText, Toast.LENGTH_LONG).show();
 
         Button neutral = (Button) dialog.findViewById(android.R.id.button3);
+        neutral.setTextColor(textColor);
         if (mNeutralText != null) {
             neutral.setText(mNeutralText);
             neutral.setOnClickListener(new View.OnClickListener() {
@@ -286,6 +291,7 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
         } else neutral.setVisibility(View.GONE);
 
         Button negative = (Button) dialog.findViewById(android.R.id.button2);
+        negative.setTextColor(textColor);
         if (mNegativeText != null) {
             negative.setText(mNegativeText);
             negative.setOnClickListener(new View.OnClickListener() {
