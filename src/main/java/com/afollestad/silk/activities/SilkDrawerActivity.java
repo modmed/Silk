@@ -44,8 +44,7 @@ public abstract class SilkDrawerActivity extends FragmentActivity {
      */
     public final boolean isDrawerOpen() {
         DrawerLayout drawer = getDrawerLayout();
-        if (drawer == null) return false;
-        return drawer.isDrawerOpen(Gravity.START) || drawer.isDrawerOpen(Gravity.LEFT) || drawer.isDrawerOpen(Gravity.RIGHT);
+        return drawer != null && (drawer.isDrawerOpen(Gravity.START) || drawer.isDrawerOpen(Gravity.LEFT) || drawer.isDrawerOpen(Gravity.RIGHT));
     }
 
     /**
