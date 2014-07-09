@@ -7,6 +7,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,7 @@ public abstract class SilkDrawerActivity extends FragmentActivity {
      */
     public final boolean isDrawerOpen() {
         DrawerLayout drawer = getDrawerLayout();
+        if (drawer == null) return false;
         return drawer.isDrawerOpen(Gravity.START) || drawer.isDrawerOpen(Gravity.LEFT) || drawer.isDrawerOpen(Gravity.RIGHT);
     }
 
@@ -101,8 +103,10 @@ public abstract class SilkDrawerActivity extends FragmentActivity {
     protected void setupDrawer() {
         mTitle = getTitle();
         DrawerLayout mDrawerLayout = getDrawerLayout();
-        if (mDrawerLayout == null)
-            throw new IllegalStateException("You must return a drawer layout in getDrawerLayout() of your Activity.");
+        if (mDrawerLayout == null) {
+            Log.w("SilkDrawerActivtiy", "You must return a drawer layout in getDrawerLayout() of your Activity in order for the drawer to be displayed.");
+            return;
+        }
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, getDrawerIndicatorRes(), getOpenedTextRes(), getOpenedTextRes()) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -140,8 +144,6 @@ public abstract class SilkDrawerActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-//        ab.setHomeButtonEnabled(true);
-//        ab.setDisplayShowHomeEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         setupDrawer();
@@ -151,7 +153,9 @@ public abstract class SilkDrawerActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                return mDrawerToggle.onOptionsItemSelected(item);
+                if (mDrawerToggle != null)
+                    return mDrawerToggle.onOptionsItemSelected(item);
+                else break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -159,12 +163,14 @@ public abstract class SilkDrawerActivity extends FragmentActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        if (mDrawerToggle != null)
+            mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        if (mDrawerToggle != null)
+            mDrawerToggle.onConfigurationChanged(newConfig);
     }
 }
