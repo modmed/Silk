@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.silk.R;
 
@@ -275,7 +274,6 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
                 onSubmit();
             }
         });
-        Toast.makeText(getContext(), "Positive: " + mPositiveText, Toast.LENGTH_LONG).show();
 
         Button neutral = (Button) dialog.findViewById(android.R.id.button3);
         neutral.setTextColor(textColor);
