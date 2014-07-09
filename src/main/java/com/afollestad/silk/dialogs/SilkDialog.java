@@ -266,7 +266,6 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
 
         Button positive = (Button) dialog.findViewById(android.R.id.button1);
         positive.setText(mPositiveText);
-        positive.setTextColor(textColor);
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -285,7 +284,6 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
                 }
             });
         } else neutral.setVisibility(View.GONE);
-        neutral.setTextColor(textColor);
 
         Button negative = (Button) dialog.findViewById(android.R.id.button2);
         if (mNegativeText != null) {
@@ -300,7 +298,6 @@ public class SilkDialog extends DialogFragment implements View.OnClickListener {
                 }
             });
         } else negative.setVisibility(View.GONE);
-        negative.setTextColor(textColor);
 
         LinearLayout childArea = (LinearLayout) dialog.findViewById(android.R.id.primary);
         if (customView != null) {
